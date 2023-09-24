@@ -83,4 +83,19 @@ func partition(arr []int, low, high int) int {
 
 	return right
 }
-///////////////
+////////////////////////
+
+/////SELECTION SORT/////
+func Seleccion(vector []int) {
+	var max int
+	if len(vector) > 1 {
+		for i := 1; i <= len(vector)-1; i++ {
+			max = Maximo(vector[0 : len(vector)-i])
+
+			if vector[max] > vector[len(vector)-i] {
+				Swap(&vector[max], &vector[len(vector)-i])
+			}
+		}
+	}
+}
+////////////////////////
