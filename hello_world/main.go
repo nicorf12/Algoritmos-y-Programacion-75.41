@@ -54,3 +54,33 @@ func merge(left, right []int) []int {
 	return result
 }
 ///////////////
+
+//QUICK SORT//
+func quickSort(arr []int, low, high int) {
+	if low < high {
+		pivotIndex := partition(arr, low, high)
+		quickSort(arr, low, pivotIndex)
+		quickSort(arr, pivotIndex+1, high)
+	}
+}
+
+func partition(arr []int, low, high int) int {
+	pivot := arr[low]
+	left := low
+	right := high
+
+	for left < right {
+		for arr[left] < pivot {
+			left++
+		}
+		for arr[right] > pivot {
+			right--
+		}
+		if left < right {
+			arr[left], arr[right] = arr[right], arr[left]
+		}
+	}
+
+	return right
+}
+///////////////
