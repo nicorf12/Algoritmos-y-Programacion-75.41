@@ -1,3 +1,0 @@
-func (vector *Vector) Destruir() {
-
-}
