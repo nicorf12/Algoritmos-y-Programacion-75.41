@@ -2,9 +2,7 @@ package tp0
 
 // Swap intercambia dos valores enteros.
 func Swap(x *int, y *int) {
-	var aux int = *x
-	*x = *y
-	*y = aux
+	*x, *y = *y, *x
 }
 
 // Maximo devuelve la posición del mayor elemento del arreglo, o -1 si el el arreglo es de largo 0. Si el máximo
@@ -27,40 +25,56 @@ func Maximo(vector []int) int {
 // Devuelve -1 si el primer arreglo es menor que el segundo; 0 si son iguales; o 1 si el primero es el mayor.
 // Un arreglo es menor a otro cuando al compararlos elemento a elemento, el primer elemento en el que difieren
 // no existe o es menor.
-func Comparar(vector1 []int, vector2 []int) int {
-	var i int
-	if len(vector1) > len(vector2) {
-		if len(vector2) == 0 {
+/* func Comparar(vector1 []int, vector2 []int) int {
+	if len(vector1) != 0 || len(vector2) != 0 {
+		if len(vector1) == 0 && len(vector2) > 0 {
+			return -1
+		} else if len(vector1) > 0 && len(vector2) == 0 {
 			return 1
 		}
-		for i = 0; i < len(vector2); i++ {
-			if vector1[i] > vector2[i] {
-				return 1
-			} else if vector1[i] < vector2[i] {
-				return -1
-			}
+
+		var max int
+		if len(vector1) >= len(vector2) {
+			max = len(vector1)
+		} else if len(vector1) < len(vector2) {
+			max = len(vector2)
 		}
-		return 1
-	} else if len(vector1) < len(vector2) {
-		if len(vector1) == 0 {
-			return -1
-		}
-		for i = 0; i < len(vector1); i++ {
-			if vector1[i] > vector2[i] {
-				return 1
-			} else if vector1[i] < vector2[i] {
-				return -1
-			}
-		}
-		return -1
-	} else if len(vector1) == len(vector2) {
-		for j := 0; j < len(vector1); j++ {
+		for j := 0; j < max-1; j++ {
 			if vector1[j] > vector2[j] {
 				return 1
 			} else if vector1[j] < vector2[j] {
 				return -1
 			}
 		}
+		if len(vector1) == max && !(len(vector1) == len(vector2)) {
+			return 1
+		} else if len(vector2) == max && !(len(vector1) == len(vector2)) {
+			return -1
+		}
+	}
+	return 0
+} */
+
+func Comparar(vector1 []int, vector2 []int) int {
+	var min int
+	if len(vector1) >= len(vector2) {
+		min = len(vector2)
+	} else {
+		min = len(vector1)
+	}
+
+	for j := 0; j < min; j++ {
+		if vector1[j] > vector2[j] {
+			return 1
+		} else if vector1[j] < vector2[j] {
+			return -1
+		}
+	}
+
+	if len(vector1) < len(vector2) {
+		return -1
+	} else if len(vector1) > len(vector2) {
+		return 1
 	}
 	return 0
 }
@@ -96,18 +110,9 @@ func Suma(vector []int) int {
 // la recursiva).
 func EsCadenaCapicua(cadena string) bool {
 	largo := len(cadena)
-	if 1 < largo && largo <= 3 {
-		if cadena[0] == cadena[largo-1] {
-			return true
-		} else {
-			return false
-		}
-	} else if largo > 3 {
-		if EsCadenaCapicua(cadena[1:largo-1]) && cadena[0] == cadena[largo-1] {
-			return true
-		} else {
-			return false
-		}
+	if largo <= 1 || (EsCadenaCapicua(cadena[1:largo-1]) && cadena[0] == cadena[largo-1]) { //quizas aqui este sacrificando claridad por menos lineas de codigo en esta
+		return true
+	} else {
+		return false
 	}
-	return true
 }
