@@ -6,52 +6,51 @@ func main() {
 	fmt.Println("Hello, World!")
 }
 ///MERGE SORT///
-func mergeSort(arr []int) []int {
-	if len(arr) <= 1 {
-		return arr
+func mergeSort(arr []int) {
+	length := len(arr)
+	if length <= 1 {
+		return
 	}
 
-	middle := len(arr) / 2
-	left := make([]int, middle)
-	right := make([]int, len(arr)-middle)
+	mid := length / 2
+	left := make([]int, mid)
+	right := make([]int, length-mid)
 
-	copy(left, arr[:middle])
-	copy(right, arr[middle:])
+	copy(left, arr[:mid])
+	copy(right, arr[mid:])
 
-	left = mergeSort(left)
-	right = mergeSort(right)
+	mergeSort(left)
+	mergeSort(right)
 
-	return merge(left, right)
+	merge(arr, left, right)
 }
 
-func merge(left, right []int) []int {
-	result := make([]int, len(left)+len(right))
+func merge(arr []int, left []int, right []int) {
 	i, j, k := 0, 0, 0
+	leftLength, rightLength := len(left), len(right)
 
-	for i < len(left) && j < len(right) {
-		if left[i] <= right[j] {
-			result[k] = left[i]
+	for i < leftLength && j < rightLength {
+		if left[i] < right[j] {
+			arr[k] = left[i]
 			i++
 		} else {
-			result[k] = right[j]
+			arr[k] = right[j]
 			j++
 		}
 		k++
 	}
 
-	for i < len(left) {
-		result[k] = left[i]
+	for i < leftLength {
+		arr[k] = left[i]
 		i++
 		k++
 	}
 
-	for j < len(right) {
-		result[k] = right[j]
+	for j < rightLength {
+		arr[k] = right[j]
 		j++
 		k++
 	}
-
-	return result
 }
 ///////////////
 
