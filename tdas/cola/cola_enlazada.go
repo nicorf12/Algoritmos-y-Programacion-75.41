@@ -1,64 +1,68 @@
 package cola
 
-const cola_vacia string = "La cola esta vacia"
-
-type nodo[T any] struct {
-	dato      T
-	siguiente *nodo[T]
-}
-
 type colaEnlazada[T any] struct {
-	principio *nodo[T]
-	fin       *nodo[T]
+	primero *nodoCola[T]
+	ultimo  *nodoCola[T]
 }
 
-func crearNodo[T any](elemento T, sig *nodo[T]) *nodo[T] {
-	return &nodo[T]{dato: elemento, siguiente: sig}
+type nodoCola[T any] struct {
+	dato    T
+	proximo *nodoCola[T]
+}
+
+func crearNodoCola[T any](dato T) *nodoCola[T] {
+	return &nodoCola[T]{dato, nil}
 }
 
 func CrearColaEnlazada[T any]() Cola[T] {
-	return &colaEnlazada[T]{}
+	return &colaEnlazada[T]{nil, nil}
 }
 
-func (c *colaEnlazada[T]) EstaVacia() bool {
-	if c.principio == nil {
-		return true
+func (cola *colaEnlazada[T]) Invertir() {
+	actual := cola.primero
+	var anterior *nodoCola[T] = nil
+	siguiente := cola.primero.proximo
+	cola.ultimo = cola.primero
+	for actual != nil {
+		actual.proximo = anterior
+		anterior = actual
+		actual = siguiente
+		if siguiente == actual {
+			actual.proximo = nil
+		}
 	}
-	return false
+	cola.primero = anterior
 }
 
-func (c *colaEnlazada[T]) VerPrimero() T {
-	if c.EstaVacia() {
-		panic(cola_vacia)
-	}
-	return c.principio.dato
-
+func (cola *colaEnlazada[T]) EstaVacia() bool {
+	return cola.primero == nil
 }
 
-func (c *colaEnlazada[T]) Encolar(elem T) {
-	nuevo_nodo := crearNodo(elem, nil)
-	if c.EstaVacia() {
-		c.principio = nuevo_nodo
-		c.fin = nuevo_nodo
-		return
+func (cola *colaEnlazada[T]) VerPrimero() T {
+	if cola.EstaVacia() {
+		panic("La cola esta vacia")
 	}
-	c.fin.siguiente = nuevo_nodo
-	c.fin = nuevo_nodo
+	return cola.primero.dato
 }
 
-func (c *colaEnlazada[T]) Desencolar() T {
-	var dato_a_devolver T
-	if c.EstaVacia() {
-		panic(cola_vacia)
-	}
-
-	dato_a_devolver = c.VerPrimero()
-
-	if c.principio != c.fin {
-		c.principio = c.principio.siguiente
+func (cola *colaEnlazada[T]) Encolar(dato T) {
+	nuevoNodo := crearNodoCola[T](dato)
+	if cola.EstaVacia() {
+		cola.primero = nuevoNodo
 	} else {
-		c.principio = nil
-		c.fin = nil
+		cola.ultimo.proximo = nuevoNodo
 	}
-	return dato_a_devolver
+	cola.ultimo = nuevoNodo
+}
+
+func (cola *colaEnlazada[T]) Desencolar() T {
+	if cola.EstaVacia() {
+		panic("La cola esta vacia")
+	}
+	desencolado := cola.primero.dato
+	cola.primero = cola.primero.proximo
+	if cola.primero == nil {
+		cola.ultimo = nil
+	}
+	return desencolado
 }

@@ -7,54 +7,57 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestRecienCreada(t *testing.T) {
+func TestColaVacia(t *testing.T) {
+	t.Log("Desencolar y ver primero a una cola vacia")
 	cola := TDACola.CrearColaEnlazada[string]()
-
-	//apenas creada
-	require.True(t, cola.EstaVacia())
-	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.VerPrimero() })
-	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.Desencolar() })
-
-	//la usamos
-	cola.Encolar("prueba1")
-	cola.Encolar("prueba2")
-	require.EqualValues(t, "prueba1", cola.Desencolar())
-	require.EqualValues(t, "prueba2", cola.Desencolar())
-
-	//luego de usarse
 	require.True(t, cola.EstaVacia())
 	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.VerPrimero() })
 	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.Desencolar() })
 }
 
-func TestComportamiento(t *testing.T) {
-	cola := TDACola.CrearColaEnlazada[float64]()
+func TestAlgunosElementos(t *testing.T) {
+	t.Log("Encolar y desencolar algunos elementos, quedando una cola vacia al final")
+	cola := TDACola.CrearColaEnlazada[bool]()
+	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.VerPrimero() })
+	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.Desencolar() })
 	require.True(t, cola.EstaVacia())
-
-	cola.Encolar(10.8)
-	cola.Encolar(11.2)
-	cola.Encolar(12.7)
+	cola.Encolar(true)
 	require.False(t, cola.EstaVacia())
-
-	require.Equal(t, 10.8, cola.VerPrimero())
-	require.Equal(t, 10.8, cola.Desencolar())
-	require.Equal(t, 11.2, cola.VerPrimero())
-	require.Equal(t, 11.2, cola.Desencolar())
-	require.Equal(t, 12.7, cola.VerPrimero())
-	require.Equal(t, 12.7, cola.Desencolar())
-
+	cola.Encolar(false)
+	require.False(t, cola.EstaVacia())
+	require.Equal(t, true, cola.VerPrimero())
+	require.Equal(t, true, cola.Desencolar())
+	require.False(t, cola.EstaVacia())
+	require.Equal(t, false, cola.VerPrimero())
+	require.Equal(t, false, cola.Desencolar())
 	require.True(t, cola.EstaVacia())
+	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.VerPrimero() })
+	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.Desencolar() })
 }
 
-func TestVolumen(t *testing.T) {
+func TestMuchosElementos(t *testing.T) {
+	t.Log("Encolar y desencolar muchos elementos, quedando una cola vacia al final")
 	cola := TDACola.CrearColaEnlazada[int]()
-	for i := 1; i <= 10000; i++ {
+	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.VerPrimero() })
+	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.Desencolar() })
+	for i := 0; i < 10000; i++ {
 		cola.Encolar(i)
-
 	}
-	for j := 1; j <= 10000; j++ {
-		require.Equal(t, j, cola.VerPrimero())
-		require.Equal(t, j, cola.Desencolar())
+	require.False(t, cola.EstaVacia())
+	for i := 0; i < 10000; i++ {
+		require.Equal(t, i, cola.VerPrimero())
+		require.Equal(t, i, cola.Desencolar())
 	}
 	require.True(t, cola.EstaVacia())
+	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.VerPrimero() })
+	require.PanicsWithValue(t, "La cola esta vacia", func() { cola.Desencolar() })
+	for i := 0; i < 10000; i++ {
+		cola.Encolar(i)
+		require.Equal(t, i, cola.VerPrimero())
+		require.Equal(t, i, cola.Desencolar())
+		require.True(t, cola.EstaVacia())
+		require.PanicsWithValue(t, "La cola esta vacia", func() { cola.VerPrimero() })
+		require.PanicsWithValue(t, "La cola esta vacia", func() { cola.Desencolar() })
+	}
+
 }
