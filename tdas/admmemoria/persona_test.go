@@ -1,9 +1,10 @@
 package admmemoria_test
 
 import (
-	Persona "administracionmemoria"
-	"administracionmemoria/administrador"
+	"tdas/administrador"
 	"testing"
+
+	Persona "tdas/admmemoria"
 )
 
 func TestPersonaUnica(t *testing.T) {

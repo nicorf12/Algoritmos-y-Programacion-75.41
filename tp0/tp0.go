@@ -25,36 +25,6 @@ func Maximo(vector []int) int {
 // Devuelve -1 si el primer arreglo es menor que el segundo; 0 si son iguales; o 1 si el primero es el mayor.
 // Un arreglo es menor a otro cuando al compararlos elemento a elemento, el primer elemento en el que difieren
 // no existe o es menor.
-/* func Comparar(vector1 []int, vector2 []int) int {
-	if len(vector1) != 0 || len(vector2) != 0 {
-		if len(vector1) == 0 && len(vector2) > 0 {
-			return -1
-		} else if len(vector1) > 0 && len(vector2) == 0 {
-			return 1
-		}
-
-		var max int
-		if len(vector1) >= len(vector2) {
-			max = len(vector1)
-		} else if len(vector1) < len(vector2) {
-			max = len(vector2)
-		}
-		for j := 0; j < max-1; j++ {
-			if vector1[j] > vector2[j] {
-				return 1
-			} else if vector1[j] < vector2[j] {
-				return -1
-			}
-		}
-		if len(vector1) == max && !(len(vector1) == len(vector2)) {
-			return 1
-		} else if len(vector2) == max && !(len(vector1) == len(vector2)) {
-			return -1
-		}
-	}
-	return 0
-} */
-
 func Comparar(vector1 []int, vector2 []int) int {
 	var min int
 	if len(vector1) >= len(vector2) {

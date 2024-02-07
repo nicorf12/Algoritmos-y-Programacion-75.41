@@ -1,7 +1,7 @@
 package admmemoria
 
 import (
-	"administracionmemoria/administrador"
+	"tdas/administrador"
 )
 
 type Vector struct {

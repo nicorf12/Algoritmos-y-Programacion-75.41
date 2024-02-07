@@ -1,8 +1,8 @@
 package admmemoria
 
 import (
-	"administracionmemoria/administrador"
 	"fmt"
+	"tdas/administrador"
 )
 
 type Persona struct {

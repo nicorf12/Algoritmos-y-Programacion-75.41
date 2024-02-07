@@ -1,8 +1,8 @@
 package admmemoria_test
 
 import (
-	Vector "administracionmemoria"
-	"administracionmemoria/administrador"
+	"tdas/administrador"
+	Vector "tdas/admmemoria"
 	"testing"
 
 	"github.com/stretchr/testify/require"
